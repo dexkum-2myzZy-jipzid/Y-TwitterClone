@@ -10,11 +10,16 @@ import cloudinary from 'cloudinary';
 import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
 
+// routers
+import authRouter from './routers/authRouter.js';
+import userRouter from './routers/userRouter.js';
+
 // public
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import path from 'path';
 
+// configure Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
@@ -31,13 +36,17 @@ app.use(express.json());
 app.use(helmet());
 app.use(mongoSanitize());
 
-app.get('/', (req, res) => {
+app.get('/api/', (req, res) => {
   res.send('Hello World');
 });
 
 app.get('/api/v1/test', (req, res) => {
   res.json({ msg: 'test route' });
 });
+
+// Route for the root of the API
+app.use('/api/v1/session', authRouter);
+app.use('/api/v1/users', userRouter);
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, './client/dist', 'index.html'));
