@@ -2,7 +2,7 @@ import Wrapper from '../assets/wrappers/LandingPage';
 import main from '../assets/images/main.svg';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
-import Logo from '../components/Logo';
+import { Logo } from '../components';
 
 const Landing = () => {
   return (
