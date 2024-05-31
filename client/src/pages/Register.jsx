@@ -34,20 +34,10 @@ const Register = () => {
           margin="normal"
           required
           fullWidth
-          id="name"
-          label="First Name"
-          name="firstName"
-          autoComplete="given-name"
-          autoFocus
-        />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          id="lastName"
-          label="Last Name"
-          name="lastName"
-          autoComplete="family-name"
+          id="username"
+          label="Username"
+          name="username"
+          autoComplete="username"
         />
         <TextField
           margin="normal"
