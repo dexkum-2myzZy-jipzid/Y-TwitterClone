@@ -9,6 +9,7 @@ import Register from './pages/Register';
 
 import { action as registerAction } from './pages/Register';
 import { action as loginAction } from './pages/Login';
+import Home from './pages/Home';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
         path: 'register',
         element: <Register />,
         action: registerAction,
+      },
+      {
+        path: 'home',
+        element: <Home />,
       },
     ],
   },
