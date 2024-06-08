@@ -4,10 +4,20 @@ import {
   PlainTextTweet,
   RepostTweet,
 } from '../components';
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+  margin-left: 250px;
+  overflow-y: auto;
+  height: 100vh;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
 
 const TweetFeed = () => {
   return (
-    <div>
+    <Wrapper>
       <PlainTextTweet
         id="1"
         profileImage="https://pbs.twimg.com/profile_images/1590968738358079488/IY9Gx6Ok_400x400.jpg"
@@ -59,7 +69,7 @@ const TweetFeed = () => {
         likes={188000}
         views={37}
       />
-    </div>
+    </Wrapper>
   );
 };
 export default TweetFeed;
