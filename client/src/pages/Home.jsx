@@ -1,9 +1,10 @@
 import { SideMenu } from '../components';
 import styled from 'styled-components';
+import TweetFeed from './TweetFeed';
 
 const Wrapper = styled.section`
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 16rem 1fr;
   height: 100vh;
   .side-menu {
     background-color: #f5f5f5;
@@ -16,7 +17,7 @@ const Home = () => {
   return (
     <Wrapper>
       <SideMenu />
-      <div className="content">content</div>
+      <TweetFeed />
     </Wrapper>
   );
 };
