@@ -1,7 +1,6 @@
 export { default as Logo } from './Logo';
 export { default as SideMenu } from './SideMenu';
-export { default as PlainTextTweet } from './PlainTextTweet';
-export { default as ImageTweet } from './ImageTweet';
+export { default as Tweet } from './Tweet';
 export { default as RepostTweet } from './RepostTweet';
 export { default as CommentedRepostTweet } from './CommentedRepostTweet';
 export { default as Interactions } from './Interactions';

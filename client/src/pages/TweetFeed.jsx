@@ -1,9 +1,4 @@
-import {
-  CommentedRepostTweet,
-  ImageTweet,
-  PlainTextTweet,
-  RepostTweet,
-} from '../components';
+import { CommentedRepostTweet, Tweet, RepostTweet } from '../components';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -18,7 +13,7 @@ const Wrapper = styled.div`
 const TweetFeed = () => {
   return (
     <Wrapper>
-      <PlainTextTweet
+      <Tweet
         id="1"
         profileImage="https://pbs.twimg.com/profile_images/1590968738358079488/IY9Gx6Ok_400x400.jpg"
         name="Elon Musk"
@@ -43,7 +38,7 @@ const TweetFeed = () => {
         likes={188000}
         views={37}
       />
-      <ImageTweet
+      <Tweet
         id="3"
         profileImage="https://pbs.twimg.com/profile_images/1590968738358079488/IY9Gx6Ok_400x400.jpg"
         name="Elon Musk"
