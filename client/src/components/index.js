@@ -5,7 +5,6 @@ export { default as ImageTweet } from './ImageTweet';
 export { default as QuoteTweet } from './QuoteTweet';
 export { default as Interactions } from './Interactions';
 export { default as UserInfo } from './UserInfo';
-export { default as Avatar } from './Avatar';
 // export { default as StatItem } from './StatItem';
 // export { default as SubmitBtn } from './SubmitBtn';
 // export { default as ChartsContainer } from './ChartsContainer';
