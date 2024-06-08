@@ -13,6 +13,7 @@ import mongoSanitize from 'express-mongo-sanitize';
 // routers
 import authRouter from './routers/authRouter.js';
 import userRouter from './routers/userRouter.js';
+import tweetRouter from './routers/tweetRouter.js';
 
 // public
 import { dirname } from 'path';
@@ -47,6 +48,7 @@ app.get('/api/v1/test', (req, res) => {
 // Route for the root of the API
 app.use('/api/v1/session', authRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/tweets', tweetRouter);
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, './client/dist', 'index.html'));
