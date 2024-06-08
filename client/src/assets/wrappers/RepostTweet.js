@@ -18,6 +18,9 @@ const Wrapper = styled.div`
     .icon {
       margin-right: 4px;
     }
+    span {
+      font-size: small;
+    }
   }
 
   .repost-tweet-content {

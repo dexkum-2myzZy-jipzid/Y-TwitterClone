@@ -16,7 +16,7 @@ const Wrapper = styled.div`
     align-items: flex-start;
   }
 
-  .content {
+  .tweet-content {
     p {
       margin: 0.5rem 0;
       font-size: 16px;
@@ -25,7 +25,7 @@ const Wrapper = styled.div`
     }
   }
 
-  .tweetImage {
+  .tweet-image {
     border: 1px solid #e1e8ed;
     border-radius: 5px;
     max-width: 100%;
@@ -33,7 +33,7 @@ const Wrapper = styled.div`
 
   .repost-tweet {
     border: 1px solid #e1e8ed;
-    border-radius: 5px;
+    border-radius: 1rem;
     max-width: 100%;
     margin-top: 8px;
     padding: 8px;

@@ -22,11 +22,10 @@ const CommentedRepostTweet = ({
       <Avatar src={profileImage} alt="profile" sx={{ width: 48, height: 48 }} />
       <div className="tweet-info">
         <UserInfo name={name} username={username} date={date} />
-        <div className="content">
+        <div className="tweet-content">
           <p>{content}</p>
         </div>
-        <img className="tweetImage" src={imgUrl} alt={imgAlt} />
-        {/* repost tweet */}
+        {imgUrl && <img className="tweet-image" src={imgUrl} alt={imgAlt} />}
         <div className="repost-tweet">
           <div className="repost-tweet-header">
             <Avatar

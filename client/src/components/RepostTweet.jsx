@@ -35,7 +35,9 @@ const RepostTweet = ({
           <div className="repost-text-content">
             <p>{content}</p>
           </div>
-          <img className="repost-tweet-image" src={imgUrl} alt={imgAlt} />
+          {imgUrl && (
+            <img className="repost-tweet-image" src={imgUrl} alt={imgAlt} />
+          )}
           <Interactions
             replies={replies}
             retweets={retweets}
