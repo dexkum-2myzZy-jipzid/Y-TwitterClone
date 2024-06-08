@@ -11,6 +11,30 @@ router.post('/', async (req, res) => {
   res.status(StatusCodes.CREATED).json({ msg: 'tweet created' });
 });
 
+router.get('/', async (req, res) => {
+  // setup pagination
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+
+  try {
+    const tweets = await Tweet.find()
+      .skip(skip)
+      .limit(limit)
+      .populate('createdBy')
+      .populate({
+        path: 'repostTweet',
+        populate: {
+          path: 'createdBy',
+        },
+      });
+
+    res.status(StatusCodes.OK).json({ tweets });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: error.message });
+  }
+});
+
 // get a tweet with id
 router.get('/:id', async (req, res) => {
   const { id } = req.params;

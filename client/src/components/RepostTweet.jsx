@@ -4,45 +4,40 @@ import Interactions from './Interactions';
 import { RepeatOutlined as Repost } from '@mui/icons-material';
 import Wrapper from '../assets/wrappers/RepostTweet';
 
-const RepostTweet = ({
-  id,
-  profileImage,
-  name,
-  username,
-  date,
-  content,
-  imgUrl,
-  imgAlt,
-  replies,
-  retweets,
-  likes,
-  views,
-}) => {
+const RepostTweet = ({ tweet }) => {
+  const user = tweet.createdBy;
+  const repostTweet = tweet.repostTweet;
+  const repostTweetUser = repostTweet.createdBy;
+
   return (
     <Wrapper>
       <div className="repost-header">
         <Repost className="icon" fontSize="small" />
-        <span>Visual Studio Code reposted</span>
+        <span>{user.displayname} reposted</span>
       </div>
       <div className="repost-tweet-content">
         <Avatar
-          src={profileImage}
+          src={repostTweetUser.avatar}
           alt="profile"
           sx={{ width: 48, height: 48 }}
         />
         <div className="repost-user-info">
-          <UserInfo name={name} username={username} date={date} />
+          <UserInfo
+            name={repostTweetUser.displayname}
+            username={repostTweetUser.username}
+            date={repostTweet.createdAt}
+          />
           <div className="repost-text-content">
-            <p>{content}</p>
+            <p>{repostTweet.content}</p>
           </div>
-          {imgUrl && (
-            <img className="repost-tweet-image" src={imgUrl} alt={imgAlt} />
+          {repostTweet.media && (
+            <img className="repost-tweet-image" src={repostTweet.media} />
           )}
           <Interactions
-            replies={replies}
-            retweets={retweets}
-            likes={likes}
-            views={views}
+            replies={repostTweetUser.replies}
+            retweets={repostTweetUser.retweets}
+            likes={repostTweetUser.likes}
+            views={repostTweetUser.views}
           />
         </div>
       </div>

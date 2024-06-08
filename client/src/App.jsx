@@ -9,6 +9,7 @@ import Register from './pages/Register';
 
 import { action as registerAction } from './pages/Register';
 import { action as loginAction } from './pages/Login';
+import { loader as tweetFeedLoader } from './pages/Home';
 import Home from './pages/Home';
 
 const router = createBrowserRouter([
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
       {
         path: 'home',
         element: <Home />,
+        loader: tweetFeedLoader,
       },
     ],
   },

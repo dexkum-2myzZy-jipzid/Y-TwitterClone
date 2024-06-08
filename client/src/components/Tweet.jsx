@@ -3,34 +3,28 @@ import UserInfo from './UserInfo';
 import Interactions from './Interactions';
 import Wrapper from '../assets/wrappers/Tweet';
 
-const Tweet = ({
-  id,
-  profileImage,
-  name,
-  username,
-  date,
-  content,
-  imgUrl,
-  imgAlt,
-  replies,
-  retweets,
-  likes,
-  views,
-}) => {
+const Tweet = ({ tweet }) => {
+  const user = tweet.createdBy;
+  console.log(user);
+
   return (
     <Wrapper>
-      <Avatar src={profileImage} alt="profile" sx={{ width: 48, height: 48 }} />
+      <Avatar src={user.avatar} alt="profile" sx={{ width: 48, height: 48 }} />
       <div className="tweet-info">
-        <UserInfo name={name} username={username} date={date} />
+        <UserInfo
+          name={user.displayname}
+          username={user.username}
+          date={tweet.createdAt}
+        />
         <div className="tweet-content">
-          <p>{content}</p>
+          <p>{tweet.content}</p>
         </div>
-        {imgUrl && <img className="tweet-image" src={imgUrl} alt={imgAlt} />}
+        {tweet.media && <img className="tweet-image" src={tweet.media} />}
         <Interactions
-          replies={replies}
-          retweets={retweets}
-          likes={likes}
-          views={views}
+          replies={tweet.replies}
+          retweets={tweet.retweets}
+          likes={tweet.likes}
+          views={tweet.views}
         />
       </div>
     </Wrapper>

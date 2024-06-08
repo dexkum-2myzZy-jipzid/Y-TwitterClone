@@ -12,12 +12,11 @@ const tweetSchema = new mongoose.Schema({
   },
   content: {
     type: String,
-    required: true,
+    // required: true,
   },
   media: {
     type: String,
   },
-
   repostTweet: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Tweet',
