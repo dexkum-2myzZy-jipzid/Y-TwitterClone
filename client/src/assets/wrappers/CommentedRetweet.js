@@ -47,7 +47,7 @@ const Wrapper = styled.div`
       gap: 4px;
     }
 
-    .repost-tweet-content {
+    .retweet-content {
       margin-top: 8px;
 
       text-align: left;

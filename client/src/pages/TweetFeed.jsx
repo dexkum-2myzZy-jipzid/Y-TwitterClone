@@ -1,4 +1,4 @@
-import { CommentedRepostTweet, Tweet, RepostTweet } from '../components';
+import { CommentedRetweet, Tweet, Retweet } from '../components';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -12,11 +12,11 @@ const Wrapper = styled.div`
 
 const TweetFeed = ({ tweets = [] }) => {
   const renderTweet = (tweet) => {
-    if (tweet.repostTweet) {
+    if (tweet.retweet) {
       if (tweet.content || tweet.media) {
-        return <CommentedRepostTweet key={tweet._id} tweet={tweet} />;
+        return <CommentedRetweet key={tweet._id} tweet={tweet} />;
       } else {
-        return <RepostTweet key={tweet._id} tweet={tweet} />;
+        return <Retweet key={tweet._id} tweet={tweet} />;
       }
     } else {
       return <Tweet key={tweet._id} tweet={tweet} />;

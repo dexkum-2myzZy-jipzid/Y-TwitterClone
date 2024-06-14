@@ -1,12 +1,12 @@
 import { Avatar } from '@mui/material';
 import UserInfo from './UserInfo';
 import Interactions from './Interactions';
-import Wrapper from '../assets/wrappers/CommentedRepostTweet';
+import Wrapper from '../assets/wrappers/CommentedRetweet';
 
-const CommentedRepostTweet = ({ tweet }) => {
+const CommentedRetweet = ({ tweet }) => {
   const user = tweet.createdBy;
-  const repostTweet = tweet.repostTweet;
-  const repostTweetUser = repostTweet.createdBy;
+  const retweet = tweet.retweet;
+  const retweetUser = retweet.createdBy;
 
   return (
     <Wrapper>
@@ -24,17 +24,17 @@ const CommentedRepostTweet = ({ tweet }) => {
         <div className="repost-tweet">
           <div className="repost-tweet-header">
             <Avatar
-              src={repostTweetUser.avatar}
+              src={retweetUser.avatar}
               alt="profile"
               sx={{ width: 32, height: 32 }}
             />
             <UserInfo
-              name={repostTweetUser.displayname}
-              username={repostTweetUser.username}
-              date={repostTweet.createdAt}
+              name={retweetUser.displayname}
+              username={retweetUser.username}
+              date={retweet.createdAt}
             />
           </div>
-          <p className="repost-tweet-content">{repostTweet.content}</p>
+          <p className="retweet-content">{retweet.content}</p>
         </div>
         <Interactions
           replies={tweet.replies}
@@ -47,4 +47,4 @@ const CommentedRepostTweet = ({ tweet }) => {
   );
 };
 
-export default CommentedRepostTweet;
+export default CommentedRetweet;

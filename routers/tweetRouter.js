@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
       .limit(limit)
       .populate('createdBy')
       .populate({
-        path: 'repostTweet',
+        path: 'retweet',
         populate: {
           path: 'createdBy',
         },
@@ -42,7 +42,7 @@ router.get('/:id', async (req, res) => {
   try {
     const tweet = await Tweet.findById(id)
       .populate('createdBy')
-      .populate('repostTweet');
+      .populate('retweet');
 
     if (!tweet) {
       return res.status(StatusCodes.NOT_FOUND).json({ msg: 'Tweet not found' });

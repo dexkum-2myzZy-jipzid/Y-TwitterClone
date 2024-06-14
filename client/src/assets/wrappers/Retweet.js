@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   max-width: 600px;
   background-color: #fff;
 
-  .repost-header {
+  .retweet-header {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -23,18 +23,18 @@ const Wrapper = styled.div`
     }
   }
 
-  .repost-tweet-content {
+  .retweet-content {
     padding: 1rem;
     display: grid;
     grid-template-columns: 3.5rem 1fr;
 
-    .repost-user-info {
+    .retweet-user-info {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
     }
 
-    .repost-text-content {
+    .retweet-text-content {
       p {
         margin: 0.5rem 0;
         font-size: 16px;
@@ -43,7 +43,7 @@ const Wrapper = styled.div`
       }
     }
 
-    .repost-tweet-image {
+    .retweet-image {
       border: 1px solid #e1e8ed;
       border-radius: 5px;
       max-width: 100%;
