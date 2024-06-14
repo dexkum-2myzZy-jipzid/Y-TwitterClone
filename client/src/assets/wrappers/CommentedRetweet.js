@@ -9,6 +9,11 @@ const Wrapper = styled.div`
   background-color: #fff;
   display: grid;
   grid-template-columns: 3.5rem 1fr;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--grey-100);
+  }
 
   .tweet-info {
     display: flex;
@@ -31,16 +36,18 @@ const Wrapper = styled.div`
     max-width: 100%;
   }
 
-  .repost-tweet {
+  .retweet {
     border: 1px solid #e1e8ed;
     border-radius: 1rem;
     max-width: 100%;
     margin-top: 8px;
     padding: 8px;
+    background-color: #fff;
     display: flex;
     flex-direction: column;
+    cursor: pointer;
 
-    .repost-tweet-header {
+    .retweet-header {
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -59,6 +66,10 @@ const Wrapper = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
     }
+  }
+
+  .retweet:hover {
+    background-color: var(--grey-200);
   }
 `;
 

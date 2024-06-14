@@ -9,6 +9,11 @@ const Wrapper = styled.div`
   background-color: #fff;
   display: grid;
   grid-template-columns: 3.5rem 1fr;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--grey-100);
+  }
 
   .tweet-info {
     display: flex;

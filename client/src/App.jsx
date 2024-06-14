@@ -9,8 +9,11 @@ import Register from './pages/Register';
 
 import { action as registerAction } from './pages/Register';
 import { action as loginAction } from './pages/Login';
-import { loader as tweetFeedLoader } from './pages/Home';
+import { loader as tweetFeedLoader } from './pages/TweetFeed';
+import { loader as tweetLoader } from './pages/TweetPage';
 import Home from './pages/Home';
+import TweetFeed from './pages/TweetFeed';
+import TweetPage from './pages/TweetPage';
 
 const router = createBrowserRouter([
   {
@@ -35,7 +38,18 @@ const router = createBrowserRouter([
       {
         path: 'home',
         element: <Home />,
-        loader: tweetFeedLoader,
+        children: [
+          {
+            index: true,
+            element: <TweetFeed />,
+            loader: tweetFeedLoader,
+          },
+          {
+            path: 'tweet/:id',
+            element: <TweetPage />,
+            loader: tweetLoader,
+          },
+        ],
       },
     ],
   },

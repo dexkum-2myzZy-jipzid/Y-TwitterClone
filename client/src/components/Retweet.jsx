@@ -1,19 +1,26 @@
 import { Avatar } from '@mui/material';
 import UserInfo from './UserInfo';
 import Interactions from './Interactions';
-import { RepeatOutlined as Repost } from '@mui/icons-material';
+import { RepeatOutlined as RetweetIcon } from '@mui/icons-material';
 import Wrapper from '../assets/wrappers/Retweet';
+import { useNavigate } from 'react-router-dom';
 
 const Retweet = ({ tweet }) => {
   const user = tweet.createdBy;
   const retweet = tweet.retweet;
   const retweetUser = retweet.createdBy;
 
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/home/tweet/${retweet._id}`);
+  };
+
   return (
-    <Wrapper>
+    <Wrapper onClick={handleClick}>
       <div className="retweet-header">
-        <Repost className="icon" fontSize="small" />
-        <span>{user.displayname} reposted</span>
+        <RetweetIcon className="icon" fontSize="small" />
+        <span>{user.displayname} Retweet</span>
       </div>
       <div className="retweet-content">
         <Avatar

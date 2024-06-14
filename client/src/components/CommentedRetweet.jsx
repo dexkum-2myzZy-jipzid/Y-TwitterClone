@@ -2,14 +2,26 @@ import { Avatar } from '@mui/material';
 import UserInfo from './UserInfo';
 import Interactions from './Interactions';
 import Wrapper from '../assets/wrappers/CommentedRetweet';
+import { useNavigate } from 'react-router-dom';
 
 const CommentedRetweet = ({ tweet }) => {
   const user = tweet.createdBy;
   const retweet = tweet.retweet;
   const retweetUser = retweet.createdBy;
 
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/home/tweet/${tweet._id}`);
+  };
+
+  const handleRetweetClick = (event) => {
+    event.stopPropagation();
+    navigate(`/home/tweet/${retweet._id}`);
+  };
+
   return (
-    <Wrapper>
+    <Wrapper onClick={handleClick}>
       <Avatar src={user.avatar} alt="profile" sx={{ width: 48, height: 48 }} />
       <div className="tweet-info">
         <UserInfo
@@ -21,8 +33,8 @@ const CommentedRetweet = ({ tweet }) => {
           <p>{tweet.content}</p>
         </div>
         {tweet.media && <img className="tweet-image" src={tweet.media} />}
-        <div className="repost-tweet">
-          <div className="repost-tweet-header">
+        <div className="retweet" onClick={handleRetweetClick}>
+          <div className="retweet-header">
             <Avatar
               src={retweetUser.avatar}
               alt="profile"

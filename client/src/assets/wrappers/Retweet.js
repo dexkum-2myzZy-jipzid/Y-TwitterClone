@@ -8,6 +8,11 @@ const Wrapper = styled.div`
   margin: 8px 0;
   max-width: 600px;
   background-color: #fff;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--grey-100);
+  }
 
   .retweet-header {
     display: flex;
