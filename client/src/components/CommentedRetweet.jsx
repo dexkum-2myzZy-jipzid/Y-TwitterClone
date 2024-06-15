@@ -1,6 +1,7 @@
 import { Avatar } from '@mui/material';
 import UserInfo from './UserInfo';
 import Interactions from './Interactions';
+import RetweetCard from './RetweetCard';
 import Wrapper from '../assets/wrappers/CommentedRetweet';
 import { useNavigate } from 'react-router-dom';
 
@@ -33,21 +34,11 @@ const CommentedRetweet = ({ tweet }) => {
           <p>{tweet.content}</p>
         </div>
         {tweet.media && <img className="tweet-image" src={tweet.media} />}
-        <div className="retweet" onClick={handleRetweetClick}>
-          <div className="retweet-header">
-            <Avatar
-              src={retweetUser.avatar}
-              alt="profile"
-              sx={{ width: 32, height: 32 }}
-            />
-            <UserInfo
-              name={retweetUser.displayname}
-              username={retweetUser.username}
-              date={retweet.createdAt}
-            />
-          </div>
-          <p className="retweet-content">{retweet.content}</p>
-        </div>
+        <RetweetCard
+          retweetUser={retweetUser}
+          retweet={retweet}
+          handleRetweetClick={handleRetweetClick}
+        />
         <Interactions
           replies={tweet.replies}
           retweets={tweet.retweets}

@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
+  justify-content: ${(props) => (props.isBottom ? 'space-between' : 'center')};
+  margin: ${(props) => (props.isBottom ? '10px 0 0 0' : '0.5rem 0')};
   color: #657786;
   width: 100%;
 

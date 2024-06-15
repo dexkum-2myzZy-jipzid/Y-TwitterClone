@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   gap: 0.5rem;
   .name {
     font-weight: bold;
-    font-size: 16px;
+    font-size: 1rem;
   }
 
   .username {

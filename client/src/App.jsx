@@ -11,6 +11,7 @@ import { action as registerAction } from './pages/Register';
 import { action as loginAction } from './pages/Login';
 import { loader as tweetFeedLoader } from './pages/TweetFeed';
 import { loader as tweetLoader } from './pages/TweetPage';
+import { action as replyAction } from './pages/TweetPage';
 import Home from './pages/Home';
 import TweetFeed from './pages/TweetFeed';
 import TweetPage from './pages/TweetPage';
@@ -48,6 +49,7 @@ const router = createBrowserRouter([
             path: 'tweet/:id',
             element: <TweetPage />,
             loader: tweetLoader,
+            action: replyAction,
           },
         ],
       },

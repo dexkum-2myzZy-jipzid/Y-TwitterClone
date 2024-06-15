@@ -38,6 +38,6 @@ const TweetFeed = () => {
     }
   };
 
-  return <Wrapper>{tweets.map(renderTweet)}</Wrapper>;
+  return <div>{tweets.map(renderTweet)}</div>;
 };
 export default TweetFeed;

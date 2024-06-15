@@ -15,7 +15,7 @@ const InteractionItem = ({ IconComponent, count, color }) => (
   </Wrapper>
 );
 
-const Interactions = ({ replies, retweets, likes, views }) => {
+const Interactions = ({ isBottom = true, replies, retweets, likes, views }) => {
   const interactionItems = [
     {
       IconComponent: Comment,
@@ -32,15 +32,15 @@ const Interactions = ({ replies, retweets, likes, views }) => {
       count: likes,
       color: '#ff6c6c',
     },
-    {
-      IconComponent: BarChart,
-      count: views,
-      color: '#b0a8ff',
-    },
+    // {
+    //   IconComponent: BarChart,
+    //   count: views,
+    //   color: '#b0a8ff',
+    // },
   ];
 
   return (
-    <Wrapper>
+    <Wrapper isBottom={isBottom}>
       {interactionItems.map((item, index) => (
         <InteractionItem key={index} {...item} />
       ))}

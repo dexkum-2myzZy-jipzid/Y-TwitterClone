@@ -5,7 +5,7 @@ export { default as Retweet } from './Retweet';
 export { default as CommentedRetweet } from './CommentedRetweet';
 export { default as Interactions } from './Interactions';
 export { default as UserInfo } from './UserInfo';
-// export { default as SubmitBtn } from './SubmitBtn';
+export { default as RetweetCard } from './RetweetCard';
 // export { default as ChartsContainer } from './ChartsContainer';
 // export { default as StatsContainer } from './StatsContainer';
 // export { default as Loading } from './Loading';

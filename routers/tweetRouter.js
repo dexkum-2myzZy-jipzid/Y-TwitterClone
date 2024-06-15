@@ -42,7 +42,12 @@ router.get('/:id', async (req, res) => {
   try {
     const tweet = await Tweet.findById(id)
       .populate('createdBy')
-      .populate('retweet');
+      .populate({
+        path: 'retweet',
+        populate: {
+          path: 'createdBy',
+        },
+      });
 
     if (!tweet) {
       return res.status(StatusCodes.NOT_FOUND).json({ msg: 'Tweet not found' });
