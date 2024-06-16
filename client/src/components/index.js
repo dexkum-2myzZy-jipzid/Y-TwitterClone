@@ -2,7 +2,6 @@ export { default as Logo } from './Logo';
 export { default as SideMenu } from './SideMenu';
 export { default as Tweet } from './Tweet';
 export { default as Retweet } from './Retweet';
-export { default as CommentedRetweet } from './CommentedRetweet';
 export { default as Interactions } from './Interactions';
 export { default as UserInfo } from './UserInfo';
 export { default as RetweetCard } from './RetweetCard';

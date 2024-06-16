@@ -4,15 +4,22 @@ import TweetBody from './TweetBody';
 import Interactions from './Interactions';
 import Wrapper from '../assets/wrappers/Tweet';
 import { useNavigate } from 'react-router-dom';
+import RetweetCard from './RetweetCard';
 
 const Tweet = ({ tweet }) => {
   const user = tweet.createdBy;
-  console.log(user);
+  const retweet = tweet.retweet;
+  const retweetUser = retweet ? retweet.createdBy : null;
 
   const navigate = useNavigate();
 
   const handleClick = () => {
     navigate(`/home/tweet/w`);
+  };
+
+  const handleRetweetClick = (event) => {
+    event.stopPropagation();
+    navigate(`/home/tweet/${retweet._id}`);
   };
 
   return (
@@ -25,6 +32,13 @@ const Tweet = ({ tweet }) => {
           date={tweet.createdAt}
         />
         <TweetBody tweet={tweet} />
+        {retweet && retweetUser && (
+          <RetweetCard
+            retweetUser={retweetUser}
+            retweet={retweet}
+            handleRetweetClick={handleRetweetClick}
+          />
+        )}
         <Interactions
           replies={tweet.replies}
           retweets={tweet.retweets}
