@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import Tweet from '../models/tweetModel.js';
 import { StatusCodes } from 'http-status-codes';
+import { verifyJWT } from '../utils/tokenUtils.js';
 
 const router = Router();
 
@@ -47,6 +48,14 @@ router.get('/:id', async (req, res) => {
         populate: {
           path: 'createdBy',
         },
+      })
+      .populate({
+        path: 'comments',
+        model: 'Tweet',
+        populate: {
+          path: 'createdBy',
+          model: 'User',
+        },
       });
 
     if (!tweet) {
@@ -90,6 +99,71 @@ router.delete('/:id', async (req, res) => {
     res.json({ msg: 'Tweet deleted' });
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: error.message });
+  }
+});
+
+// add comment to tweet with id
+router.post('/:id/comments', async (req, res) => {
+  if (!req.cookies.token) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: 'No token, authorization denied' });
+  }
+
+  // get current user id
+  let userId = '';
+  try {
+    // Verify the token
+    const decoded = verifyJWT(req.cookies.token, process.env.JWT_SECRET);
+    // If token is verified, send a positive response
+    userId = decoded.userId;
+  } catch (err) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: 'Token is not valid' });
+  }
+
+  const { id } = req.params;
+  const { text } = req.body;
+
+  if (!text || text.trim() === '') {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ error: 'Text is required' });
+  }
+
+  try {
+    const tweet = await Tweet.findById(id);
+    if (!tweet) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ error: 'Tweet not found' });
+    }
+    const commentObject = {
+      content: text,
+      createdBy: userId,
+    };
+    const comment = await Tweet.create(commentObject);
+    tweet.comments.unshift(comment);
+    tweet.replies += 1;
+
+    await tweet.save();
+
+    // populate tweets in comments and tweets' createdBy
+    const populatedTweet = await Tweet.findById(id).populate({
+      path: 'comments',
+      model: 'Tweet',
+      populate: {
+        path: 'createdBy',
+        model: 'User',
+      },
+    });
+
+    res.json(populatedTweet);
+  } catch (error) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 });
 

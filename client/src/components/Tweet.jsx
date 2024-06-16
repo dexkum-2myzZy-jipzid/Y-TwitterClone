@@ -1,5 +1,6 @@
 import { Avatar } from '@mui/material';
 import UserInfo from './UserInfo';
+import TweetBody from './TweetBody';
 import Interactions from './Interactions';
 import Wrapper from '../assets/wrappers/Tweet';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +12,7 @@ const Tweet = ({ tweet }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/home/tweet/${tweet._id}`);
+    navigate(`/home/tweet/w`);
   };
 
   return (
@@ -23,10 +24,7 @@ const Tweet = ({ tweet }) => {
           username={user.username}
           date={tweet.createdAt}
         />
-        <div className="tweet-content">
-          <p>{tweet.content}</p>
-        </div>
-        {tweet.media && <img className="tweet-image" src={tweet.media} />}
+        <TweetBody tweet={tweet} />
         <Interactions
           replies={tweet.replies}
           retweets={tweet.retweets}

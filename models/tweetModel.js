@@ -21,10 +21,6 @@ const tweetSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Tweet',
   },
-  isReplyTo: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Tweet',
-  },
   likes: {
     type: Number,
     default: 0,
@@ -50,6 +46,12 @@ const tweetSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
+    },
+  ],
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Tweet',
     },
   ],
 });
