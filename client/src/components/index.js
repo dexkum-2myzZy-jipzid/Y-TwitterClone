@@ -10,3 +10,4 @@ export { default as ReplySection } from './ReplySection';
 export { default as AuthorInfo } from './AuthorInfo';
 export { default as TweetNavigation } from './TweetNavigation';
 export { default as TweetBody } from './TweetBody';
+export { default as PostTweet } from './PostTweet';

@@ -26,7 +26,7 @@ const sideMenuItems = [
   { name: 'More', icon: <MoreHorizIcon style={{ fontSize: 24 }} /> },
 ];
 
-const SideMenu = () => {
+const SideMenu = ({ togglePopover }) => {
   return (
     <Wrapper>
       <div className="side-menu-item">
@@ -42,7 +42,9 @@ const SideMenu = () => {
           {item.name}
         </div>
       ))}
-      <button className="tweet-btn">Tweet</button>
+      <button className="tweet-btn" onClick={togglePopover}>
+        Tweet
+      </button>
       <div className="profile">
         <img
           className="avatar"

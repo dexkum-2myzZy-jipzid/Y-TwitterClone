@@ -13,7 +13,7 @@ export const action = async ({ request }) => {
   try {
     await customFetch.post('/session', data);
     toast.success('Login successful');
-    return redirect('/dashboard');
+    return redirect('/home');
   } catch (error) {
     toast.error(error?.response?.data?.msg);
     return error;
@@ -31,7 +31,7 @@ const Login = () => {
     try {
       await customFetch.post('/session', data);
       toast.success('Take a test drive');
-      // navigate('/home');
+      navigate('/home');
     } catch (error) {
       toast.error(error?.response?.data?.msg);
     }

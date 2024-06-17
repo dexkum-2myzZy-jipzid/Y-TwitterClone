@@ -5,9 +5,44 @@ import { verifyJWT } from '../utils/tokenUtils.js';
 
 const router = Router();
 
+const authenticateUser = async (req, res, next) => {
+  if (!req.cookies.token) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: 'No token, authorization denied' });
+  }
+
+  try {
+    const decoded = verifyJWT(req.cookies.token, process.env.JWT_SECRET);
+    req.userId = decoded.userId;
+    next();
+  } catch (err) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: 'Token is not valid' });
+  }
+};
+
+const validateTweetContent = (req, res, next) => {
+  const { text } = req.body;
+
+  if (!text || text.trim() === '') {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ error: 'Text is required' });
+  }
+
+  next();
+};
+
 // create a tweet
-router.post('/', async (req, res) => {
-  const tweet = await Tweet.create(req.body);
+router.post('/', authenticateUser, validateTweetContent, async (req, res) => {
+  const { text } = req.body;
+  const tweetObject = {
+    content: text,
+    createdBy: req.userId,
+  };
+  const tweet = await Tweet.create(tweetObject);
   console.log(tweet);
   res.status(StatusCodes.CREATED).json({ msg: 'tweet created' });
 });
@@ -102,69 +137,47 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-// add comment to tweet with id
-router.post('/:id/comments', async (req, res) => {
-  if (!req.cookies.token) {
-    return res
-      .status(StatusCodes.UNAUTHORIZED)
-      .json({ message: 'No token, authorization denied' });
-  }
+router.post(
+  '/:id/comments',
+  authenticateUser,
+  validateTweetContent,
+  async (req, res) => {
+    const { id } = req.params;
+    const { text } = req.body;
 
-  // get current user id
-  let userId = '';
-  try {
-    // Verify the token
-    const decoded = verifyJWT(req.cookies.token, process.env.JWT_SECRET);
-    // If token is verified, send a positive response
-    userId = decoded.userId;
-  } catch (err) {
-    return res
-      .status(StatusCodes.UNAUTHORIZED)
-      .json({ message: 'Token is not valid' });
-  }
+    try {
+      const tweet = await Tweet.findById(id);
+      if (!tweet) {
+        return res
+          .status(StatusCodes.NOT_FOUND)
+          .json({ error: 'Tweet not found' });
+      }
+      const commentObject = {
+        content: text,
+        createdBy: req.userId,
+      };
+      const comment = await Tweet.create(commentObject);
+      tweet.comments.unshift(comment);
+      tweet.replies += 1;
 
-  const { id } = req.params;
-  const { text } = req.body;
+      await tweet.save();
 
-  if (!text || text.trim() === '') {
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ error: 'Text is required' });
-  }
+      const populatedTweet = await Tweet.findById(id).populate({
+        path: 'comments',
+        model: 'Tweet',
+        populate: {
+          path: 'createdBy',
+          model: 'User',
+        },
+      });
 
-  try {
-    const tweet = await Tweet.findById(id);
-    if (!tweet) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ error: 'Tweet not found' });
+      res.json(populatedTweet);
+    } catch (error) {
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ error: error.message });
     }
-    const commentObject = {
-      content: text,
-      createdBy: userId,
-    };
-    const comment = await Tweet.create(commentObject);
-    tweet.comments.unshift(comment);
-    tweet.replies += 1;
-
-    await tweet.save();
-
-    // populate tweets in comments and tweets' createdBy
-    const populatedTweet = await Tweet.findById(id).populate({
-      path: 'comments',
-      model: 'Tweet',
-      populate: {
-        path: 'createdBy',
-        model: 'User',
-      },
-    });
-
-    res.json(populatedTweet);
-  } catch (error) {
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ error: error.message });
   }
-});
+);
 
 export default router;
