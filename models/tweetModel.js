@@ -17,6 +17,7 @@ const tweetSchema = new mongoose.Schema({
   media: {
     type: String,
   },
+  mediaPublicId: String,
   retweet: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Tweet',

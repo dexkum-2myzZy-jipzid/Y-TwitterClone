@@ -37,10 +37,12 @@ const validateTweetContent = (req, res, next) => {
 
 // create a tweet
 router.post('/', authenticateUser, validateTweetContent, async (req, res) => {
-  const { text } = req.body;
+  const { text, imgUrl, publicId } = req.body;
   const tweetObject = {
     content: text,
     createdBy: req.userId,
+    media: imgUrl,
+    mediaPublicId: publicId,
   };
   const tweet = await Tweet.create(tweetObject);
   console.log(tweet);

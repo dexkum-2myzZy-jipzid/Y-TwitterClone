@@ -11,6 +11,8 @@ import {
 } from '@mui/icons-material';
 import Logo from './Logo';
 import Wrapper from '../assets/wrappers/SideMenu';
+import { useHomeContext } from '../pages/Home';
+import AuthorInfo from './AuthorInfo';
 
 const sideMenuItems = [
   { name: 'Home', icon: <HomeIcon style={{ fontSize: 24 }} />, active: true },
@@ -27,6 +29,8 @@ const sideMenuItems = [
 ];
 
 const SideMenu = ({ togglePopover }) => {
+  const { user } = useHomeContext();
+
   return (
     <Wrapper>
       <div className="side-menu-item">
@@ -45,17 +49,7 @@ const SideMenu = ({ togglePopover }) => {
       <button className="tweet-btn" onClick={togglePopover}>
         Tweet
       </button>
-      <div className="profile">
-        <img
-          className="avatar"
-          src="https://via.placeholder.com/40"
-          alt="Profile"
-        />
-        <div className="username">
-          <div className="name">Jerome Bell</div>
-          <div className="handle">@afonsoinocente</div>
-        </div>
-      </div>
+      <AuthorInfo user={user} />
     </Wrapper>
   );
 };

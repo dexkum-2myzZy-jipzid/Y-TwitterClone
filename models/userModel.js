@@ -31,6 +31,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 'default_avatar.jpg',
   },
+  avatarPublicId: String,
   location: String,
   website: String,
   followers: [

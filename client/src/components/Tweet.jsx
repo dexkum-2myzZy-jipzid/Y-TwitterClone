@@ -14,7 +14,7 @@ const Tweet = ({ tweet }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/home/tweet/w`);
+    navigate(`/home/tweet/${tweet._id}`);
   };
 
   const handleRetweetClick = (event) => {
