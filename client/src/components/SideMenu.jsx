@@ -13,6 +13,7 @@ import Logo from './Logo';
 import Wrapper from '../assets/wrappers/SideMenu';
 import { useHomeContext } from '../pages/Home';
 import AuthorInfo from './AuthorInfo';
+import { useNavigate } from 'react-router-dom';
 
 const sideMenuItems = [
   { name: 'Home', icon: <HomeIcon style={{ fontSize: 24 }} />, active: true },
@@ -30,6 +31,15 @@ const sideMenuItems = [
 
 const SideMenu = ({ togglePopover }) => {
   const { user } = useHomeContext();
+  const navigate = useNavigate();
+
+  const handleItemClick = (itemName) => {
+    if (itemName == 'Profile') {
+      navigate('/home/profile');
+    } else {
+      navigate('/home');
+    }
+  };
 
   return (
     <Wrapper>
@@ -41,7 +51,8 @@ const SideMenu = ({ togglePopover }) => {
       {sideMenuItems.map((item, index) => (
         <div
           key={index}
-          className={`side-menu-item ${item.active ? 'active' : ''}`}>
+          className={`side-menu-item ${item.active ? 'active' : ''}`}
+          onClick={() => handleItemClick(item.name)}>
           <div className="icon">{item.icon}</div>
           {item.name}
         </div>

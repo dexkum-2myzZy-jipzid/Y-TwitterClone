@@ -46,6 +46,24 @@ const userSchema = new mongoose.Schema({
       ref: 'User',
     },
   ],
+  posts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Tweet',
+    },
+  ],
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Tweet',
+    },
+  ],
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Tweet',
+    },
+  ],
 });
 
 userSchema.methods.toJSON = function () {

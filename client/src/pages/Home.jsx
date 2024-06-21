@@ -7,9 +7,10 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: row;
 
   .right-container {
-    margin-left: 250px;
+    width: 600px;
     overflow-y: auto;
     height: 100vh;
     ::-webkit-scrollbar {

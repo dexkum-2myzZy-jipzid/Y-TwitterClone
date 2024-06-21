@@ -1,17 +1,7 @@
 import { Tweet, Retweet } from '../components';
-import styled from 'styled-components';
 import customFetch from '../utils/customFetch';
 import { toast } from 'react-toastify';
 import { useLoaderData } from 'react-router-dom';
-
-const Wrapper = styled.div`
-  margin-left: 250px;
-  overflow-y: auto;
-  height: 100vh;
-  ::-webkit-scrollbar {
-    display: none;
-  }
-`;
 
 export const loader = async () => {
   try {

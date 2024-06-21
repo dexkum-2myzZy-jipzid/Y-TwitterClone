@@ -16,6 +16,10 @@ import { loader as userLoader } from './pages/Home';
 import Home from './pages/Home';
 import TweetFeed from './pages/TweetFeed';
 import TweetPage from './pages/TweetPage';
+import Profile from './pages/Profile';
+import Posts from './pages/Posts';
+import Replies from './pages/Replies';
+import Likes from './pages/Likes';
 
 const router = createBrowserRouter([
   {
@@ -52,6 +56,24 @@ const router = createBrowserRouter([
             element: <TweetPage />,
             loader: tweetLoader,
             action: replyAction,
+          },
+          {
+            path: 'profile',
+            element: <Profile />,
+            children: [
+              {
+                index: true,
+                element: <Posts />,
+              },
+              {
+                path: 'replies',
+                element: <Replies />,
+              },
+              {
+                path: 'likes',
+                element: <Likes />,
+              },
+            ],
           },
         ],
       },
