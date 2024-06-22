@@ -79,6 +79,7 @@ const Interactions = ({
     <Wrapper isBottom={isBottom}>
       {interactionItems.map((item, index) => (
         <Wrapper
+          key={index}
           hoverColor={item.color}
           onClick={(event) => handleInteractionClick(event, index)}>
           <div className="interaction-item">

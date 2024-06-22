@@ -1,32 +1,18 @@
-import React from 'react';
-import {
-  Home as HomeIcon,
-  Explore as ExploreIcon,
-  Notifications as NotificationsIcon,
-  Mail as MailIcon,
-  Bookmark as BookmarkIcon,
-  List as ListIcon,
-  Person as PersonIcon,
-  MoreHoriz as MoreHorizIcon,
-} from '@mui/icons-material';
+import React, { useState } from 'react';
+import { Home as HomeIcon, Person as PersonIcon } from '@mui/icons-material';
 import Logo from './Logo';
 import Wrapper from '../assets/wrappers/SideMenu';
 import { useHomeContext } from '../pages/Home';
-import AuthorInfo from './AuthorInfo';
-import { useNavigate } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
+import IconButton from '@mui/material/IconButton';
+import CreateIcon from '@mui/icons-material/Create';
+import { Avatar, Menu, MenuItem } from '@mui/material';
+import { toast } from 'react-toastify';
+import customFetch from '../utils/customFetch';
 
 const sideMenuItems = [
-  { name: 'Home', icon: <HomeIcon style={{ fontSize: 24 }} />, active: true },
-  { name: 'Explore', icon: <ExploreIcon style={{ fontSize: 24 }} /> },
-  {
-    name: 'Notifications',
-    icon: <NotificationsIcon style={{ fontSize: 24 }} />,
-  },
-  { name: 'Messages', icon: <MailIcon style={{ fontSize: 24 }} /> },
-  { name: 'Bookmarks', icon: <BookmarkIcon style={{ fontSize: 24 }} /> },
-  { name: 'Lists', icon: <ListIcon style={{ fontSize: 24 }} /> },
-  { name: 'Profile', icon: <PersonIcon style={{ fontSize: 24 }} /> },
-  { name: 'More', icon: <MoreHorizIcon style={{ fontSize: 24 }} /> },
+  { name: 'Home', icon: <HomeIcon style={{ fontSize: 36 }} />, active: true },
+  { name: 'Profile', icon: <PersonIcon style={{ fontSize: 36 }} /> },
 ];
 
 const SideMenu = ({ togglePopover }) => {
@@ -41,26 +27,75 @@ const SideMenu = ({ togglePopover }) => {
     }
   };
 
+  // handle menu events
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = async () => {
+    setAnchorEl(null);
+    try {
+      await customFetch.delete('/session');
+      toast.success('Logout successful');
+      navigate('/');
+    } catch (error) {
+      toast.error(error?.response?.data?.msg);
+    }
+  };
+
   return (
     <Wrapper>
-      <div className="side-menu-item">
-        <div className="logo">
-          <Logo />
-        </div>
+      <Logo />
+      <div className="side-menu-content">
+        {sideMenuItems.map((item, index) => (
+          <div
+            key={index}
+            className={`side-menu-item ${item.active ? 'active' : ''}`}
+            onClick={() => handleItemClick(item.name)}>
+            <div className="icon">{item.icon}</div>
+            <span className="name">{item.name}</span>
+          </div>
+        ))}
       </div>
-      {sideMenuItems.map((item, index) => (
-        <div
-          key={index}
-          className={`side-menu-item ${item.active ? 'active' : ''}`}
-          onClick={() => handleItemClick(item.name)}>
-          <div className="icon">{item.icon}</div>
-          {item.name}
-        </div>
-      ))}
       <button className="tweet-btn" onClick={togglePopover}>
         Tweet
       </button>
-      <AuthorInfo user={user} />
+      <IconButton
+        aria-label="tweet"
+        className="tweet-icon-btn"
+        onClick={togglePopover}>
+        <CreateIcon style={{ fontSize: 24 }} />
+      </IconButton>
+      <div id="basic-button" className="author-info" onClick={handleClick}>
+        <Avatar
+          className="author-avatar"
+          src={user.avatar}
+          alt="avatar"
+          sx={{ width: 48, height: 48 }}
+        />
+        <div className="author-details">
+          <div className="author-display-name">{user.displayname}</div>
+          <div className="author-username">{user.username}</div>
+        </div>
+      </div>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}>
+        {/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      </Menu>
     </Wrapper>
   );
 };
