@@ -52,7 +52,8 @@ const userSchema = new mongoose.Schema({
       ref: 'Tweet',
     },
   ],
-  comments: [
+  // retweet && comments
+  replies: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Tweet',

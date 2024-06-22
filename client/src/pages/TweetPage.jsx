@@ -79,6 +79,7 @@ const TweetPage = () => {
         </div>
         <Divider />
         <Interactions
+          tweetId={tweet._id}
           isBottom={false}
           replies={tweet.replies}
           retweets={tweet.retweets}

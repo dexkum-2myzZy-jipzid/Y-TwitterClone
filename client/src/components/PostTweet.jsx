@@ -42,6 +42,7 @@ const Wrapper = styled.div`
     padding: 1rem;
 
     .tweet-input-container {
+      width: 100%;
       margin-left: 10px;
       .tweet-textarea {
         width: 100%;

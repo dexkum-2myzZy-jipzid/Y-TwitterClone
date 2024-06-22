@@ -40,10 +40,10 @@ const Tweet = ({ tweet }) => {
           />
         )}
         <Interactions
+          tweetId={tweet._id}
           replies={tweet.replies}
           retweets={tweet.retweets}
           likes={tweet.likes}
-          views={tweet.views}
         />
       </div>
     </Wrapper>

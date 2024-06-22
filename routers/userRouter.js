@@ -63,4 +63,118 @@ router.post('/', async (req, res) => {
   }
 });
 
+// get user posts
+router.get('/:id/posts', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    // Find user by ID
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res.status(StatusCodes.NOT_FOUND).send('User not found');
+    }
+
+    // populate posts from user
+    await user.populate({
+      path: 'posts',
+      model: 'Tweet',
+      populate: [
+        {
+          path: 'createdBy',
+          model: 'User',
+        },
+        {
+          path: 'retweet',
+          model: 'Tweet',
+          populate: {
+            path: 'createdBy',
+            model: 'User',
+          },
+        },
+      ],
+    });
+
+    // Return posts
+    res.json(user.posts);
+  } catch (error) {
+    console.error(error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Server error');
+  }
+});
+
+// get user replies
+router.get('/:id/replies', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    // Find user by ID
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res.status(StatusCodes.NOT_FOUND).send('User not found');
+    }
+
+    // populate posts from user
+    await user.populate({
+      path: 'replies',
+      model: 'Tweet',
+      populate: [
+        {
+          path: 'createdBy',
+          model: 'User',
+        },
+        {
+          path: 'retweet',
+          model: 'Tweet',
+          populate: {
+            path: 'createdBy',
+            model: 'User',
+          },
+        },
+      ],
+    });
+
+    // Return posts
+    res.json(user.replies);
+  } catch (error) {
+    console.error(error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Server error');
+  }
+});
+
+// get user likes
+router.get('/:id/likes', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    // Find user by ID
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res.status(StatusCodes.NOT_FOUND).send('User not found');
+    }
+
+    // populate posts from user
+    await user.populate({
+      path: 'likes',
+      model: 'Tweet',
+      populate: [
+        {
+          path: 'createdBy',
+          model: 'User',
+        },
+        {
+          path: 'retweet',
+          model: 'Tweet',
+          populate: {
+            path: 'createdBy',
+            model: 'User',
+          },
+        },
+      ],
+    });
+
+    // Return posts
+    res.json(user.likes);
+  } catch (error) {
+    console.error(error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Server error');
+  }
+});
+
 export default router;

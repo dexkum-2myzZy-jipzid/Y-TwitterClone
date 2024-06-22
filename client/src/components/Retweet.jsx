@@ -41,6 +41,7 @@ const Retweet = ({ tweet }) => {
             <img className="retweet-image" src={retweet.media} />
           )}
           <Interactions
+            tweetId={tweet._id}
             replies={retweetUser.replies}
             retweets={retweetUser.retweets}
             likes={retweetUser.likes}

@@ -46,15 +46,15 @@ app.get('/api/v1/test', (req, res) => {
   res.json({ msg: 'test route' });
 });
 
+// app.get('*', (req, res) => {
+//   res.sendFile(path.resolve(__dirname, './client/dist', 'index.html'));
+// });
+
 // Route for the root of the API
 app.use('/api/v1/session', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/tweets', tweetRouter);
 app.use('/api/v1/images', imageRouter);
-
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './client/dist', 'index.html'));
-});
 
 app.use('*', (req, res) => {
   res.status(404).json({ msg: 'not found' });

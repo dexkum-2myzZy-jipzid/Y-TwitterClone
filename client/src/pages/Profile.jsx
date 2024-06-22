@@ -17,8 +17,8 @@ const Profile = () => {
 
   const valueToRoute = {
     0: '',
-    1: '/home/profile/replies',
-    2: '/home/profile/likes',
+    1: `/home/profile/${user._id}/replies`,
+    2: `/home/profile/${user._id}/likes`,
   };
 
   const handleChange = (event, newValue) => {
@@ -32,7 +32,7 @@ const Profile = () => {
   return (
     <Wrapper>
       <div className="profile-app-bar">
-        <ArrowBackIcon onClick={() => navigate(-1)} />
+        <ArrowBackIcon onClick={() => navigate('/home')} />
         <strong className="profile-app-bar-name">{user.displayname}</strong>
       </div>
       <div className="profile-header">

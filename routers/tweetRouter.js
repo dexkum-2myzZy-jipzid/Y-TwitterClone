@@ -51,7 +51,7 @@ router.post('/', authenticateUser, validateTweetContent, async (req, res) => {
 
   // based on req.userId find user and add tweet to its posts array
   const user = await userModel.findById(req.userId);
-  user.posts.push(tweet.id);
+  user.posts.unshift(tweet.id);
 
   // Save the user
   await user.save();
@@ -176,7 +176,7 @@ router.post(
 
       // based on req.userId find user and add tweet to its posts array
       const user = await userModel.findById(req.userId);
-      user.replies.push(tweet.id);
+      user.replies.unshift(comment.id);
 
       // Save the user
       await user.save();
@@ -198,5 +198,56 @@ router.post(
     }
   }
 );
+
+// retweet a tweet
+router.post('/:id/retweets', authenticateUser, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await userModel.findById(req.userId);
+    if (!user) {
+      return res.status(StatusCodes.NOT_FOUND).send('User not found');
+    }
+
+    const alreadyRetweet = user.replies.includes(id);
+    if (alreadyRetweet) {
+      user.replies = user.likes.filter((retweetId) => retweetId !== id);
+    } else {
+      user.replies.unshift(id);
+    }
+    await user.save(); // Save the changes to the database
+    res.json({ success: true }); // Send back a success response
+  } catch (error) {
+    console.error(error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Server error');
+  }
+});
+
+// like a tweet
+router.post('/:id/likes', authenticateUser, async (req, res) => {
+  const { id } = req.params;
+
+  // Check if user.likes contains this tweet ID.
+  try {
+    const user = await userModel.findById(req.userId);
+    if (!user) {
+      return res.status(StatusCodes.NOT_FOUND).send('User not found');
+    }
+
+    const alreadyLiked = user.likes.includes(id);
+    if (alreadyLiked) {
+      // Remove the like
+      user.likes = user.likes.filter((likeId) => likeId !== id);
+    } else {
+      // Add the like
+      user.likes.unshift(id);
+    }
+
+    await user.save(); // Save the changes to the database
+    res.json({ success: true }); // Send back a success response
+  } catch (error) {
+    console.error(error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Server error');
+  }
+});
 
 export default router;

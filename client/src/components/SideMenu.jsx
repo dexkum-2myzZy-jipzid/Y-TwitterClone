@@ -35,7 +35,7 @@ const SideMenu = ({ togglePopover }) => {
 
   const handleItemClick = (itemName) => {
     if (itemName == 'Profile') {
-      navigate('/home/profile');
+      navigate(`/home/profile/${user._id}`);
     } else {
       navigate('/home');
     }
