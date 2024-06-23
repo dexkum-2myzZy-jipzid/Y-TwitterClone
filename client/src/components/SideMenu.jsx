@@ -10,16 +10,28 @@ import { Avatar, Menu, MenuItem } from '@mui/material';
 import { toast } from 'react-toastify';
 import customFetch from '../utils/customFetch';
 
-const sideMenuItems = [
+const initialMenuItems = [
   { name: 'Home', icon: <HomeIcon style={{ fontSize: 36 }} />, active: true },
-  { name: 'Profile', icon: <PersonIcon style={{ fontSize: 36 }} /> },
+  {
+    name: 'Profile',
+    icon: <PersonIcon style={{ fontSize: 36 }} />,
+    active: false,
+  },
 ];
 
 const SideMenu = ({ togglePopover }) => {
   const { user } = useHomeContext();
   const navigate = useNavigate();
+  const [menuItems, setMenuItems] = useState(initialMenuItems);
 
   const handleItemClick = (itemName) => {
+    // Update the active state of menu items
+    const updatedMenuItems = menuItems.map((item) => ({
+      ...item,
+      active: item.name === itemName,
+    }));
+    setMenuItems(updatedMenuItems);
+
     if (itemName == 'Profile') {
       navigate(`/home/profile/${user._id}`);
     } else {
@@ -54,7 +66,7 @@ const SideMenu = ({ togglePopover }) => {
     <Wrapper>
       <Logo />
       <div className="side-menu-content">
-        {sideMenuItems.map((item, index) => (
+        {menuItems.map((item, index) => (
           <div
             key={index}
             className={`side-menu-item ${item.active ? 'active' : ''}`}
