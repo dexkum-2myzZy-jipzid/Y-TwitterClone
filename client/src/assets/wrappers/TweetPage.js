@@ -1,15 +1,20 @@
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-  border: 1px solid #e1e8ed;
-  border-radius: 5px;
-  padding: 1rem;
-  margin: 8px 0;
-  max-width: 600px;
-  background-color: #fff;
   display: flex;
   flex-direction: column;
-  cursor: pointer;
+
+  .tweet-form {
+    border: 1px solid #e1e8ed;
+    border-radius: 5px;
+    padding: 1rem;
+    margin: 55px 0;
+    max-width: 600px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+  }
 
   .tweet-body {
     p {

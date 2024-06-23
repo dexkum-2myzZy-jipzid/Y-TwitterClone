@@ -1,5 +1,4 @@
 import { useHomeContext } from './Home';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { Outlet, useNavigate } from 'react-router-dom';
 import DateManager from '../utils/dateManager';
@@ -7,6 +6,7 @@ import { Tab, Tabs, Box } from '@mui/material';
 import { useState } from 'react';
 import Banner from '../assets/images/profile-banner.jpg';
 import Wrapper from '../assets/wrappers/Profile';
+import { NavigationBar } from '../components';
 
 const Profile = () => {
   const { user } = useHomeContext();
@@ -29,12 +29,16 @@ const Profile = () => {
     }
   };
 
+  const handleBackClick = () => {
+    navigate('/home');
+  };
+
   return (
     <Wrapper>
-      <div className="profile-app-bar">
-        <ArrowBackIcon onClick={() => navigate('/home')} />
-        <strong className="profile-app-bar-name">{user.displayname}</strong>
-      </div>
+      <NavigationBar
+        title={user.displayname}
+        handleBackClick={handleBackClick}
+      />
       <div className="profile-header">
         <img src={Banner} className="banner"></img>
         <img

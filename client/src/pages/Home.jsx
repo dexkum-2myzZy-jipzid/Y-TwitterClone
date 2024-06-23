@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   flex-direction: row;
 
   .right-container {
-    width: 600px;
+    width: 500px;
     overflow-y: auto;
     height: 100vh;
     ::-webkit-scrollbar {
@@ -22,6 +22,7 @@ const Wrapper = styled.div`
 export const loader = async () => {
   try {
     const response = await customFetch.get('/users');
+    console.log(response.data);
     return response.data;
   } catch (error) {
     toast.error('You are not authorized to view this page');

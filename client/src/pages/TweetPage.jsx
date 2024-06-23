@@ -14,9 +14,9 @@ import { useState } from 'react';
 import Comment from '../components/Comment';
 import ReplySection from '../components/ReplySection';
 import AuthorInfo from '../components/AuthorInfo';
-import TweetNavigation from '../components/TweetNavigation';
 import TweetBody from '../components/TweetBody';
 import Wrapper from '../assets/wrappers/TweetPage';
+import { NavigationBar } from '../components';
 
 export const loader = async ({ params }) => {
   try {
@@ -61,10 +61,14 @@ const TweetPage = () => {
     navigate(`/home/tweet/${retweet._id}`);
   };
 
+  const handleBackClick = () => {
+    navigate(-1);
+  };
+
   return (
     <Wrapper>
-      <Form method="post">
-        <TweetNavigation navigate={navigate} title={'Post'} />
+      <NavigationBar title={'Post'} handleBackClick={handleBackClick} />
+      <Form method="post" className="tweet-form">
         <AuthorInfo user={user} />
         <TweetBody tweet={tweet} />
         {retweet && (

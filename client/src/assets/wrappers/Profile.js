@@ -5,22 +5,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 
-  .profile-app-bar {
-    position: fixed;
-    background: rgba(255, 255, 255, 0.5);
-    height: 55px;
-    width: 100%;
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    .profile-app-bar-name {
-      margin-left: 2rem;
-      font-size: x-large;
-    }
-  }
-
   .profile-header {
     margin-top: 55px;
     width: 100%;
