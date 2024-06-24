@@ -13,6 +13,7 @@ import { loader as tweetFeedLoader } from './pages/TweetFeed';
 import { loader as tweetLoader } from './pages/TweetPage';
 import { action as replyAction } from './pages/TweetPage';
 import { loader as userLoader } from './pages/Home';
+import { loader as profileLoader } from './pages/Profile';
 import { loader as postsLoader } from './pages/Posts';
 import { loader as repliesLoader } from './pages/Replies';
 import { loader as likesLoader } from './pages/Likes';
@@ -63,6 +64,7 @@ const router = createBrowserRouter([
           {
             path: 'profile/:id',
             element: <Profile />,
+            loader: profileLoader,
             children: [
               {
                 index: true,
