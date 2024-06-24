@@ -48,6 +48,11 @@ router.post('/', async (req, res) => {
     const hashedPassword = await hashPassword(req.body.password);
     req.body.password = hashedPassword;
 
+    // add prefix '@' to username
+    if (req.body.username && !req.body.username.startsWith('@')) {
+      req.body.username = `@${req.body.username}`;
+    }
+
     const user = await userModel.create(req.body);
     res.status(StatusCodes.CREATED).json({ msg: 'user created' });
   } catch (error) {

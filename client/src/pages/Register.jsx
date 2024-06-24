@@ -38,14 +38,15 @@ const Register = () => {
           label="Username"
           name="username"
           autoComplete="username"
+          placeholder="@username"
         />
         <TextField
           margin="normal"
           required
           fullWidth
-          id="location"
-          label="Location"
-          name="location"
+          id="displayname"
+          label="displayname"
+          name="displayname"
         />
         <TextField
           margin="normal"

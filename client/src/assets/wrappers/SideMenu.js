@@ -79,8 +79,7 @@ const Wrapper = styled.div`
         font-weight: bold;
         font-size: 1rem;
         text-align: left;
-        margin-left: 1rem;
-        margin-top: 4px;
+        margin: 4px 0 4px 1rem;
       }
       .author-username {
         grid-area: username;
