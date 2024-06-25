@@ -7,6 +7,7 @@ const Wrapper = styled.div`
   width: 16rem;
   padding: 1.5rem;
   box-sizing: border-box;
+  height: 100vh;
 
   .logo {
     display: flex;

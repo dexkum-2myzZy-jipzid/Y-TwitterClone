@@ -60,22 +60,35 @@ router.post('/', authenticateUser, validateTweetContent, async (req, res) => {
 });
 
 router.get('/', async (req, res) => {
-  // setup pagination
-  const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 40;
-  const skip = (page - 1) * limit;
+  // set up pagination
+  const { cursor, direction, count = 20 } = req.query;
+  let query = {};
+
+  if (cursor) {
+    const dateCursor = new Date(cursor);
+    if (direction === 'next') {
+      query.createdAt = { $lt: dateCursor };
+    } else if (direction === 'prev') {
+      query.createdAt = { $gt: dateCursor };
+    }
+  }
 
   try {
-    const tweets = await Tweet.find()
-      .skip(skip)
-      .limit(limit)
+    let tweets = await Tweet.find(query)
       .populate('createdBy')
       .populate({
         path: 'retweet',
         populate: {
           path: 'createdBy',
         },
-      });
+      })
+      .sort({ createdAt: direction === 'prev' ? 1 : -1 })
+      .limit(Number(count));
+
+    // If fetching previous items, reverse the array to maintain chronological order
+    if (direction === 'prev') {
+      tweets = tweets.reverse();
+    }
 
     res.status(StatusCodes.OK).json({ tweets });
   } catch (error) {

@@ -11,3 +11,5 @@ export { default as AuthorInfo } from './AuthorInfo';
 export { default as TweetBody } from './TweetBody';
 export { default as PostTweet } from './PostTweet';
 export { default as NavigationBar } from './NavigationBar';
+export { default as Loader } from './Loader';
+export { default as EndMessage } from './EndMessage';

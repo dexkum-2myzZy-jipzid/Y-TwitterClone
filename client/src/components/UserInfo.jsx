@@ -9,8 +9,13 @@ const UserInfo = ({ name, username, date }) => {
   const now = dayjs();
   const tweetDate = dayjs(date);
   const diffDays = now.diff(tweetDate, 'day');
+  const currentYear = dayjs().year();
   const displayDate =
-    diffDays > 7 ? tweetDate.format('MMM D') : tweetDate.fromNow();
+    diffDays > 7
+      ? tweetDate.year() === currentYear
+        ? tweetDate.format('MMM D')
+        : tweetDate.format('MMM D, YYYY')
+      : tweetDate.fromNow();
 
   return (
     <Wrapper>

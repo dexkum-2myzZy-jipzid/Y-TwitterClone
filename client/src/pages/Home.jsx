@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   .right-container {
     width: 500px;
     overflow-y: auto;
-    height: 100vh;
+    /* height: 100vh; */
     ::-webkit-scrollbar {
       display: none;
     }
