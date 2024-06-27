@@ -42,6 +42,32 @@ router.get('/', async (req, res) => {
   }
 });
 
+// get user with id
+router.get('/:id', async (req, res) => {
+  const userId = req.params.id;
+
+  // Check if userId is empty, then try to get current user id from the token
+  if (!userId) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: 'userId is not missing' });
+  }
+
+  try {
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: 'User not found' });
+    }
+    res.json(user);
+  } catch (error) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: 'Server error' });
+  }
+});
+
 // register a user (Post)
 router.post('/', async (req, res) => {
   try {
@@ -212,19 +238,19 @@ router.post('/:id/follow', authenticateUser, async (req, res) => {
         .json({ error: "You can't follow yourself." });
     }
 
-    const targetUser = await User.findById(targetUserId);
+    const targetUser = await userModel.findById(targetUserId);
     if (!targetUser) {
       return res
         .status(StatusCodes.NOT_FOUND)
         .json({ error: 'User not found.' });
     }
 
-    const currentUser = await User.findByIdAndUpdate(
+    const currentUser = await userModel.findByIdAndUpdate(
       currentUserId,
       { $addToSet: { following: targetUserId } },
       { new: true }
     );
-    await User.findByIdAndUpdate(
+    await userModel.findByIdAndUpdate(
       targetUserId,
       { $addToSet: { followers: currentUserId } },
       { new: true }
@@ -250,19 +276,19 @@ router.delete('/:id/follow', authenticateUser, async (req, res) => {
         .json({ error: "You can't unfollow yourself." });
     }
 
-    const targetUser = await User.findById(targetUserId);
+    const targetUser = await userModel.findById(targetUserId);
     if (!targetUser) {
       return res
         .status(StatusCodes.NOT_FOUND)
         .json({ error: 'User not found.' });
     }
 
-    const currentUser = await User.findByIdAndUpdate(
+    const currentUser = await userModel.findByIdAndUpdate(
       currentUserId,
       { $pull: { following: targetUserId } },
       { new: true }
     );
-    await User.findByIdAndUpdate(
+    await userModel.findByIdAndUpdate(
       targetUserId,
       { $pull: { followers: currentUserId } },
       { new: true }

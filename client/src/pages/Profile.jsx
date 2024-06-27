@@ -11,9 +11,9 @@ import { toast } from 'react-toastify';
 import customFetch from '../utils/customFetch';
 import { follow, unfollow } from '../services';
 
-export const loader = async () => {
+export const loader = async ({ params }) => {
   try {
-    const response = await customFetch.get('/users/');
+    const response = await customFetch.get(`/users/${params.id || ''}`);
     return response.data;
   } catch (error) {
     toast.error('You are not authorized to view this page');
@@ -66,11 +66,13 @@ const Profile = () => {
   const toggleFollow = async () => {
     if (isFollowing === FollowStatus.FOLLOW) {
       const response = await follow(user._id);
+      console.log(response);
       if (response.success) {
         setIsFollowing(FollowStatus.UNFOLLOW);
       }
     } else if (isFollowing === FollowStatus.UNFOLLOW) {
       const response = await unfollow(user._id);
+      console.log(response);
       if (response.success) {
         setIsFollowing(FollowStatus.FOLLOW);
       }

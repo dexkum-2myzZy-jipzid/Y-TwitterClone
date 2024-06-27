@@ -16,7 +16,7 @@ export const fetchTweets = async (cursor = '', direction = '', limit) => {
 };
 
 // profile - follow
-export const follow = async ({ id }) => {
+export const follow = async (id) => {
   try {
     const response = await customFetch.post(`/users/${id}/follow`);
     return response.data;
@@ -26,7 +26,7 @@ export const follow = async ({ id }) => {
 };
 
 // profile - unfollow
-export const unfollow = async ({ id }) => {
+export const unfollow = async (id) => {
   try {
     const response = await customFetch.delete(`/users/${id}/follow`);
     return response.data;

@@ -59,43 +59,48 @@ router.post('/', authenticateUser, validateTweetContent, async (req, res) => {
   res.status(StatusCodes.CREATED).json({ msg: 'tweet created' });
 });
 
-router.get('/', async (req, res) => {
-  // set up pagination
-  const { cursor, direction, count = 20 } = req.query;
-  let query = {};
+// get tweets from people I following
+router.get('/', authenticateUser, async (req, res) => {
+  const {
+    cursor = new Date().toISOString(), // Default to current time
+    direction = 'next',
+    count = 20,
+  } = req.query;
 
-  if (cursor) {
-    const dateCursor = new Date(cursor);
-    if (direction === 'next') {
-      query.createdAt = { $lt: dateCursor };
-    } else if (direction === 'prev') {
-      query.createdAt = { $gt: dateCursor };
-    }
+  const user = await userModel.findById(req.userId).lean();
+
+  // user.following is an array of user IDs the user is following
+  let query = {
+    createdBy: { $in: user.following },
+    createdAt: {},
+  };
+
+  // the query based on the direction
+  if (direction === 'next') {
+    query.createdAt.$lt = cursor; // Fetch tweets created before the cursor
+  } else {
+    query.createdAt.$gt = cursor; // Fetch tweets created after the cursor
   }
 
   try {
-    let tweets = await Tweet.find(query)
+    const tweets = await Tweet.find(query)
+      .sort({ createdAt: direction === 'next' ? -1 : 1 }) // Sort by createdAt in descending order for 'next', ascending for 'prev'
+      .limit(count)
       .populate('createdBy')
       .populate({
         path: 'retweet',
         populate: {
           path: 'createdBy',
         },
-      })
-      .sort({ createdAt: direction === 'prev' ? 1 : -1 })
-      .limit(Number(count));
-
-    // If fetching previous items, reverse the array to maintain chronological order
-    if (direction === 'prev') {
-      tweets = tweets.reverse();
-    }
+      });
 
     res.status(StatusCodes.OK).json({ tweets });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: error.message });
+    res
+      .status(500)
+      .json({ message: 'Error fetching tweets', error: error.message });
   }
 });
-
 // get a tweet with id
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
