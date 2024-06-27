@@ -3,12 +3,13 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { Outlet, useLoaderData, useNavigate } from 'react-router-dom';
 import DateManager from '../utils/dateManager';
 import { Tab, Tabs, Box } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Banner from '../assets/images/profile-banner.jpg';
 import Wrapper from '../assets/wrappers/Profile';
 import { NavigationBar } from '../components';
 import { toast } from 'react-toastify';
 import customFetch from '../utils/customFetch';
+import { follow, unfollow } from '../services';
 
 export const loader = async () => {
   try {
@@ -19,12 +20,32 @@ export const loader = async () => {
   }
 };
 
-const Profile = () => {
-  const user = useLoaderData();
+const FollowStatus = {
+  FOLLOW: 'Follow',
+  UNFOLLOW: 'Unfollow',
+  NOT_DISPLAY: 'NotDisplay', // Changed to uppercase with underscores
+};
 
+const Profile = () => {
+  // user is current profile user
+  const user = useLoaderData();
+  // login user is user login
+  const { user: loginUser } = useHomeContext();
+
+  const [isFollowing, setIsFollowing] = useState(FollowStatus.NOT_DISPLAY);
   const [value, setValue] = useState(0);
   const tabLabels = ['Posts', 'Replies', 'Likes'];
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user._id === loginUser._id) {
+      setIsFollowing(FollowStatus.NOT_DISPLAY);
+    } else if (loginUser.following.includes(user._id)) {
+      setIsFollowing(FollowStatus.UNFOLLOW);
+    } else {
+      setIsFollowing(FollowStatus.FOLLOW);
+    }
+  }, [user._id, loginUser._id]);
 
   const valueToRoute = {
     0: '',
@@ -40,8 +61,20 @@ const Profile = () => {
     }
   };
 
-  const handleBackClick = () => {
-    navigate('/home');
+  const handleBackClick = () => navigate('/home');
+
+  const toggleFollow = async () => {
+    if (isFollowing === FollowStatus.FOLLOW) {
+      const response = await follow(user._id);
+      if (response.success) {
+        setIsFollowing(FollowStatus.UNFOLLOW);
+      }
+    } else if (isFollowing === FollowStatus.UNFOLLOW) {
+      const response = await unfollow(user._id);
+      if (response.success) {
+        setIsFollowing(FollowStatus.FOLLOW);
+      }
+    }
   };
 
   return (
@@ -52,11 +85,18 @@ const Profile = () => {
       />
       <div className="profile-header">
         <img src={Banner} className="banner"></img>
-        <img
-          src={user.avatar}
-          alt="Profile Avatar"
-          className="profile-avatar"
-        />
+        <div className="profile-avatar-row">
+          <img
+            src={user.avatar}
+            alt="Profile Avatar"
+            className="profile-avatar"
+          />
+          {isFollowing !== FollowStatus.NOT_DISPLAY && (
+            <button className="profile-follow-btn" onClick={toggleFollow}>
+              {isFollowing === FollowStatus.FOLLOW ? 'Follow' : 'Unfollow'}
+            </button>
+          )}
+        </div>
         <strong className="profile-displayname">{user.displayname}</strong>
         <span className="profile-username">{user.username}</span>
         <div className="profile-joined-date">

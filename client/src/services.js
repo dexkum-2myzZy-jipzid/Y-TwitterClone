@@ -14,3 +14,23 @@ export const fetchTweets = async (cursor = '', direction = '', limit) => {
     throw error;
   }
 };
+
+// profile - follow
+export const follow = async ({ id }) => {
+  try {
+    const response = await customFetch.post(`/users/${id}/follow`);
+    return response.data;
+  } catch (error) {
+    toast.error(error.error);
+  }
+};
+
+// profile - unfollow
+export const unfollow = async ({ id }) => {
+  try {
+    const response = await customFetch.delete(`/users/${id}/follow`);
+    return response.data;
+  } catch (error) {
+    toast.error(error.error);
+  }
+};

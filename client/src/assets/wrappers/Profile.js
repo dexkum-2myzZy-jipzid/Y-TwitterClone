@@ -16,13 +16,39 @@ const Wrapper = styled.div`
       background-color: #dcdcdc;
       object-fit: cover;
     }
-    .profile-avatar {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      border: 4px solid white;
-      margin-top: -40px;
-      margin-left: 1rem;
+
+    .profile-avatar-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .profile-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 4px solid white;
+        margin-top: -40px;
+        margin-left: 1rem;
+      }
+
+      .profile-follow-btn {
+        margin: 0.5rem;
+        background-color: #000000;
+        color: #ffffff;
+        border: none;
+        border-radius: 20px;
+        padding: 10px 18px;
+        font-size: 14px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .profile-follow-btn:hover {
+        background-color: #333333;
+      }
     }
     .profile-displayname {
       text-align: left;

@@ -182,4 +182,98 @@ router.get('/:id/likes', async (req, res) => {
   }
 });
 
+const authenticateUser = async (req, res, next) => {
+  if (!req.cookies.token) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: 'No token, authorization denied' });
+  }
+
+  try {
+    const decoded = verifyJWT(req.cookies.token, process.env.JWT_SECRET);
+    req.userId = decoded.userId;
+    next();
+  } catch (err) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: 'Token is not valid' });
+  }
+};
+
+//Follow
+router.post('/:id/follow', authenticateUser, async (req, res) => {
+  try {
+    const targetUserId = req.params.id;
+    const currentUserId = req.userId;
+
+    if (targetUserId === currentUserId.toString()) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ error: "You can't follow yourself." });
+    }
+
+    const targetUser = await User.findById(targetUserId);
+    if (!targetUser) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ error: 'User not found.' });
+    }
+
+    const currentUser = await User.findByIdAndUpdate(
+      currentUserId,
+      { $addToSet: { following: targetUserId } },
+      { new: true }
+    );
+    await User.findByIdAndUpdate(
+      targetUserId,
+      { $addToSet: { followers: currentUserId } },
+      { new: true }
+    );
+
+    res.status(StatusCodes.OK).json({ success: true });
+  } catch (err) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: 'Server error.' });
+  }
+});
+
+// Unfollow
+router.delete('/:id/follow', authenticateUser, async (req, res) => {
+  try {
+    const targetUserId = req.params.id;
+    const currentUserId = req.userId;
+
+    if (targetUserId === currentUserId.toString()) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ error: "You can't unfollow yourself." });
+    }
+
+    const targetUser = await User.findById(targetUserId);
+    if (!targetUser) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ error: 'User not found.' });
+    }
+
+    const currentUser = await User.findByIdAndUpdate(
+      currentUserId,
+      { $pull: { following: targetUserId } },
+      { new: true }
+    );
+    await User.findByIdAndUpdate(
+      targetUserId,
+      { $pull: { followers: currentUserId } },
+      { new: true }
+    );
+
+    res.status(StatusCodes.OK).json({ success: true });
+  } catch (err) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: 'Server error.' });
+  }
+});
+
 export default router;
