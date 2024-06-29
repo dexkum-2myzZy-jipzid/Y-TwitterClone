@@ -14,7 +14,8 @@ import { follow, unfollow } from '../services';
 export const loader = async ({ params }) => {
   try {
     const response = await customFetch.get(`/users/${params.id || ''}`);
-    return response.data;
+    const { data } = response.data;
+    return data;
   } catch (error) {
     toast.error('You are not authorized to view this page');
   }

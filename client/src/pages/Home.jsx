@@ -22,7 +22,8 @@ const Wrapper = styled.div`
 export const loader = async () => {
   try {
     const response = await customFetch.get('/users');
-    return response.data;
+    const { data } = response.data;
+    return data;
   } catch (error) {
     toast.error('You are not authorized to view this page');
     return redirect('/');

@@ -21,7 +21,8 @@ import { NavigationBar } from '../components';
 export const loader = async ({ params }) => {
   try {
     const response = await customFetch.get(`/tweets/${params.id}`);
-    return response.data;
+    const { data } = response.data;
+    return data;
   } catch (error) {
     toast.error('You are not authorized to view this page');
   }
@@ -35,9 +36,8 @@ export const action = async ({ request, params }) => {
     const response = await customFetch.post(`/tweets/${params.id}/comments`, {
       text: data.text,
     });
-    console.log(response.data);
-
-    return response.data;
+    const { data } = response.data;
+    return data;
   } catch (error) {
     toast.error(error.error);
   }

@@ -8,7 +8,8 @@ export const fetchTweets = async (cursor = '', direction = '', limit) => {
         direction ? `&direction=${direction}` : ''
       }${limit ? `&limit=${limit}` : ''}`
     );
-    return response.data.tweets;
+    const { data } = response.data;
+    return data;
   } catch (error) {
     toast.error('You are not authorized to view this page');
     throw error;

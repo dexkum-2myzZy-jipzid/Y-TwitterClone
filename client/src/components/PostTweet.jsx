@@ -144,8 +144,8 @@ function PostTweet({ togglePopover }) {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log(response);
-      const { url, public_id } = response.data;
+      const { data } = response.data;
+      const { url, public_id } = data;
       if (url && public_id) {
         setImageData({ imgUrl: url, publicId: public_id });
       }

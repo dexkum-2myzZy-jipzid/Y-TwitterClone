@@ -54,9 +54,14 @@ const SideMenu = ({ togglePopover }) => {
   const handleLogout = async () => {
     setAnchorEl(null);
     try {
-      await customFetch.delete('/session');
-      toast.success('Logout successful');
-      navigate('/');
+      const response = await customFetch.delete('/session');
+      const { data } = response.data;
+      if (data.status === 'success') {
+        toast.success('Logout successful');
+        navigate('/');
+      } else {
+        toast.success('Logout failed');
+      }
     } catch (error) {
       toast.error(error?.response?.data?.msg);
     }

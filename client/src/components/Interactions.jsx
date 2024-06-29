@@ -56,8 +56,8 @@ const Interactions = ({
   const requestLike = async (id) => {
     try {
       const response = await customFetch.post(`/tweets/${id}/likes`);
-      console.log(response);
-      return response.data;
+      const { data } = response.data;
+      return data;
     } catch (error) {
       console.error('Error in requestLike:', error); // More generic error handling
       toast.error('You are not authorized to view this page'); // Specific error message for unauthorized access
@@ -67,8 +67,8 @@ const Interactions = ({
   const requestRetweet = async (id) => {
     try {
       const response = await customFetch.post(`/tweets/${id}/retweets`);
-      console.log(response);
-      return response.data;
+      const { data } = response.data;
+      return data;
     } catch (error) {
       console.error('Error in requestRetweet:', error);
       toast.error('You are not authorized to view this page');

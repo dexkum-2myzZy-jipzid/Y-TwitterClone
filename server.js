@@ -16,6 +16,9 @@ import userRouter from './routers/userRouter.js';
 import tweetRouter from './routers/tweetRouter.js';
 import imageRouter from './routers/imageRouter.js';
 
+// middleware
+import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
+
 // public
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -59,6 +62,8 @@ app.use('/api/v1/images', imageRouter);
 app.use('*', (req, res) => {
   res.status(404).json({ msg: 'not found' });
 });
+
+app.use(errorHandlerMiddleware);
 
 const port = process.env.PORT || 5100;
 

@@ -6,7 +6,8 @@ import { useLoaderData } from 'react-router-dom';
 export const loader = async ({ params }) => {
   try {
     const response = await customFetch.get(`/users/${params.id}/posts`);
-    return { tweets: response.data };
+    const { data } = response.data;
+    return { tweets: data };
   } catch (error) {
     toast.error('You are not authorized to view this page');
   }
