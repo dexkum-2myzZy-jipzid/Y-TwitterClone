@@ -1,0 +1,24 @@
+services:
+  client:
+    image: "mario622/multi-client"
+    mem_limit: 128m
+    hostname: client
+
+  api:
+    image: "mario622/multi-api"
+    mem_limit: 128m
+    hostname: api
+    environment:
+      MONGO_URI: $MONGO_URI
+      JWT_SECRET: $JWT_SECRET
+      JWT_EXPIRES_IN: $JWT_EXPIRES_IN
+      CLOUD_NAME: $CLOUD_NAME
+      CLOUD_API_KEY: $CLOUD_API_KEY
+      CLOUD_API_SECRET: $CLOUD_API_SECRET
+
+  nginx:
+    image: "mario622/multi-nginx"
+    mem_limit: 128m
+    hostname: nginx
+    ports:
+      - "80:80"

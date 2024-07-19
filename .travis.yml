@@ -1,0 +1,36 @@
+language: generic
+sudo: required
+services:
+  - docker
+
+# Build test version of React project
+# before_install:
+#   - docker build -t mario/node -f ./client/Dockerfile.dev ./client
+
+# Run tests
+# script:
+#   - docker run -e CI=true mario/node npm run test
+
+# Build prod versions of all projects
+after_success:
+  - docker build -t "$DOCKER_ID"/multi-client ./client
+  - docker build -t "$DOCKER_ID"/multi-nginx ./nginx
+  - docker build -t "$DOCKER_ID"/multi-api .
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push "$DOCKER_ID"/multi-client
+  - docker push "$DOCKER_ID"/multi-nginx
+  - docker push "$DOCKER_ID"/multi-api
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "Y"
+  env: "Y-env"
+  bucket_name: "elasticbeanstalk-us-east-2-381492181945"
+  bucket_path: "y"
+  on:
+    branch: main
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
