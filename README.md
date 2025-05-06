@@ -1,6 +1,6 @@
 # 🐦 Y
 
-**_Y_** is a simplified version of Twitter, designed to demonstrate the core features of social media platforms such as tweeting, following users, and liking tweets. ***Visit the website [here](http://y-env.eba-veuajxr8.us-east-2.elasticbeanstalk.com).***
+**_Y_** is a simplified version of Twitter, designed to demonstrate the core features of social media platforms such as tweeting, following users, and liking tweets. **_The website has been removed due to the expiration of the AWS Free Tier._**
 
 ## Technologies Used
 
